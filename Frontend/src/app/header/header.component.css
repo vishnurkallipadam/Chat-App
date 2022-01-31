@@ -1,0 +1,12 @@
+.first {
+    background-color: rgb(17, 17, 65);
+    padding: 20px;
+  }
+  .first ul li a {
+    color: white;
+  }
+  .main {
+    background-color: black;
+    padding-top: 20px;
+    
+  }

@@ -94,7 +94,13 @@ button:hover {
 }
 .first {
   width: 550px;
-  background: url("https://toolxox.com/dl/1/ist2/images/dl.beatsnoop.com-1024-1643179739.jpg")
+  background: url("https://media.istockphoto.com/photos/two-bubble-talk-or-comment-sign-symbol-on-blue-background-picture-id1304849823?b=1&k=20&m=1304849823&s=170667a&w=0&h=WyxXj3Pj8gAD-9UP3bijhKuKFW2_1kCamAa-XbJrpxQ=")
     no-repeat center/ cover;
-  color: white;
+  color: #302b63;
+}
+
+@media only screen and (max-width: 767px) {
+  .first {
+    width: 0px;
+  }
 }
