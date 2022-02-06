@@ -10,7 +10,9 @@ const privatemsgSchema= new schema({
     user:String,
     message:String,
     room:String,
-    created:{type:Date,default:Date.now},
+    date:String,
+    time:String,
+    month:String,
     imgfile:String
 });
 

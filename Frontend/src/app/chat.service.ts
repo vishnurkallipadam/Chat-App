@@ -36,5 +36,14 @@ export class ChatService {
   getSingleUser(id:any){
     return this.http.get<any>(`${this.server_address}/getUser/`+id)
   }
+
+  chatHistory(item:any){
+    console.log(item)
+    return this.http.get<any>(`${this.server_address}/chatHistory/`+item);
+  }
+
+  sndprivatemsg(user:any,message:any,recepient:any,room:any){
+   return this.socket.emit('sendindvmsg',{user:user,message:message,recepient:recepient,room:room});
+  }
   
 }
