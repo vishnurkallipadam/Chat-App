@@ -1,0 +1,43 @@
+<div *ngFor="let user of user">
+<div  *ngIf="email==user.email" class="app-profile-box">
+  <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80" alt="profile">
+  <div  class="app-profile-box-name">
+    {{user.name}}
+
+  </div>
+  <p class="app-profile-box-title">{{user.email}}</p>
+
+</div>
+</div>
+<div class="chat-list-wrapper" >
+            <div class="chat-list-header">Contacts <span class="c-number">{{count}}</span>
+              <svg class="list-header-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="feather feather-chevron-up" viewBox="0 0 24 24">
+                <defs/>
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+            </div>
+            <ul *ngFor="let user of user" class="chat-list active">
+              <li style=" display: flex;
+              justify-content: space-between;"  *ngIf="email!==user.email" class="chat-list-item active">
+              <div>
+
+                <img src="https://images.unsplash.com/photo-1587080266227-677cc2a4e76e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80" alt="chat">
+                
+                <span (click)="chatUser(user)"  class="chat-list-name">{{user.name}}</span>
+              </div>
+
+
+               
+
+                <div style="padding: 2px; display: flex;
+                justify-content: space-between;" *ngIf="user.status=='online'">
+                  <span  class="dot" style="background-color: green; display: flex;
+                  justify-content: space-between; "></span>
+               </div>
+                  <div style="padding: 2px;" *ngIf="user.status=='offline'">
+                  <span class="dot" style="display: flex;
+                  justify-content: space-between;"></span>
+              </div>
+              </li>
+            </ul>
+          </div> 

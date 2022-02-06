@@ -51,7 +51,10 @@ export class HomeComponent implements OnInit {
     this.authservice.userlogin(this.user)
     .subscribe(
       data=>{
-        localStorage.setItem('user',"logined")
+        console.log(data);
+        sessionStorage.setItem('user',"logined")
+        sessionStorage.setItem('email',data.email)
+
         alert("login success")
       },
       err=>{        

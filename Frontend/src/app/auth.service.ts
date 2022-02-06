@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class AuthService {
 
   constructor(private http:HttpClient) { }
-  server_address:String = 'http://localhost:5000';
+  server_address:String = 'http://localhost:5200';
 
   userSignup(user:any){
     return this.http.post<any>(`${this.server_address}/signup`,user)
@@ -18,7 +18,7 @@ export class AuthService {
   }
 
   userLoggedIn(){
-    return !!localStorage.getItem('user')
+    return !!sessionStorage.getItem('user')
   }
 
 

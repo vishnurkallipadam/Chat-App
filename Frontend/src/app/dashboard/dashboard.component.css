@@ -524,7 +524,7 @@ body[data-theme="dark"] {
   opacity: 0.6;
 }
 
-.app-right {
+/* .app-right {
   flex-basis: 320px;
   flex-shrink: 0;
   height: 100%;
@@ -546,7 +546,7 @@ body[data-theme="dark"] {
 .app-right .app-profile-box-title svg {
   width: 16px;
   margin-right: 6px;
-}
+} */
 
 .archive-btn {
   color: #fff;
