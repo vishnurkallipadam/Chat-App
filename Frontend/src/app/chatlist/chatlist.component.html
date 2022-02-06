@@ -6,7 +6,11 @@
 
   </div>
   <p class="app-profile-box-title">{{user.email}}</p>
+  <div class="switch-status">
+    <input type="checkbox" name="switchStatus" id="switchStatus" checked>
+    <a class="nav-link active" (click)= "logoutUser()" style="cursor:pointer">LogOut</a>
 
+  </div>
 </div>
 </div>
 <div class="chat-list-wrapper" >

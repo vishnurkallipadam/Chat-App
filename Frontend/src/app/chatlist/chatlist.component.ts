@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 import { ChatService } from '../chat.service';
-import { DashboardComponent } from '../dashboard/dashboard.component'; 
+
 
 @Component({
   selector: 'app-chatlist',
@@ -13,30 +14,40 @@ export class ChatlistComponent implements OnInit {
   email:any=''
   count:any=0
   
-  constructor(private chat:ChatService,private router:DashboardComponent) { }
+  constructor(private chat:ChatService,private router:Router,private auth:AuthService) { }
 
   ngOnInit(): void {
-    this.email=sessionStorage.getItem('email')
-    this.chat.getUser(this.email).subscribe((data)=>{
-      console.log(data);
-      
-      this.user=JSON.parse(JSON.stringify(data))
-      console.log(this.user);
-      this.count=this.user.length-1
-      console.log(this.count);
-      
-    })
+    
+      this.email=sessionStorage.getItem('email')
+      this.chat.getUser(this.email).subscribe((data)=>{
+        console.log(data);
+        
+        this.user=JSON.parse(JSON.stringify(data))
+        console.log(this.user);
+        this.count=this.user.length-1
+        console.log(this.count);
+        
+      })
+
+
     
   }
 
   chatUser(user:any){
     console.log(user);
     sessionStorage.setItem('chatUser',user._id)
-    this.router.ngOnInit()
-    
-    
-    
+   window.location.reload();
+  }
 
+  // logout user
+  logoutUser(){
+
+    this.email =sessionStorage.getItem("email");
+
+    this.auth.logOut(this.email)
+    console.log(this.email);
+    sessionStorage.clear()
+    this.router.navigate(['/'])
   }
 
 }

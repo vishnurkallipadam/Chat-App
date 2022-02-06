@@ -13,13 +13,20 @@ export class ChatareaComponent implements OnInit {
 
   ngOnInit(): void {
     let id = sessionStorage.getItem('chatUser')
-    this.chat.getSingleUser(id).subscribe((data)=>{
-      this.user=JSON.parse(JSON.stringify(data))
-    })
-    this.chat.newMessageReceived()
-    .subscribe(data =>          
-      this.messageArray.push(data)
-      );
+    if(id){
+        this.chat.getSingleUser(id).subscribe((data)=>{
+          this.user=JSON.parse(JSON.stringify(data))
+        })
+
+
+  
+        this.chat.newMessageReceived()
+        .subscribe(data =>          
+          this.messageArray.push(data)
+          );
+
+    }
+
   }
 
   sendMsg(){
@@ -31,4 +38,7 @@ export class ChatareaComponent implements OnInit {
   refresh(){
     this.ngOnInit()
   }
+
+  
+
 }

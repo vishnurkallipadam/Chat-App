@@ -53,7 +53,6 @@ app.get('/getUsers',(req,res)=>{
     res.header("Acces-Control-Allow-Origin","*");
     res.header("Acces-Control-Allow-Methods: GET, POST, PATH, PUT, DELETE, HEAD"); 
     userdata.find().then((data)=>{
-        console.log(data);
         res.send(data)
     }) 
 })
@@ -62,8 +61,8 @@ app.get('/getUser/:id',(req,res)=>{
     res.header("Acces-Control-Allow-Origin","*");
     res.header("Acces-Control-Allow-Methods: GET, POST, PATH, PUT, DELETE, HEAD"); 
     let id=req.params.id
+    console.log(id);
     userdata.findOne({_id:id}).then((data)=>{
-        console.log(data);
         res.send(data)
     }) 
 })
@@ -85,7 +84,12 @@ app.post('/login',(req,res)=>{
                     // res.status(200).send({token,role:'student',id:student._id})
                     
                     console.log("success");
-                    res.send(user)
+                    userdata.findOneAndUpdate({email:user.email}, 
+                        {$set:{status:"online"}
+                    }).then(()=>{
+                        res.send(user)
+
+                    })
                    
                 }else{
                     console.log("failed");
@@ -123,7 +127,18 @@ io.on('connection', (socket) => {
     });
 });
 
-
+app.get('/logout/:mail',function(req, res){
+    res.header("Access-Control-Allow-Origin","*")
+    res.header("Access-Control-Allow-Methods:GET,POST,PATCH,PUT,DELETE,OPTIONS")
+   // const id = req.body._id;
+   console.log("logout"+req.params.mail);
+  const email=req.params.mail;
+     userdata.findOneAndUpdate({"email":email}, {$set:{status:"offline"}})
+     .then(()=>{
+         console.log("logout");
+         res.send();
+     });
+ })
 
 server.listen(port, () => {
     console.log(`started on port: ${port}`);
