@@ -125,19 +125,36 @@ io.on('connection', (socket) => {
     });
 
     socket.on('sendindvmsg',function(data){
+            console.log(data);
+            let date_ob = new Date();
+            var chatdata={
+              user:data.user,
+              message:data.message,
+              room:data.room,
+              date:new Date().toLocaleDateString(),
+              time:formatAMPM(new Date)
+            }
+            console.log(chatdata);
+            var chatdata=new privateData(chatdata);
+        chatdata.save().then(()=>{
+        })
+        io.in(data.room).emit('new_indvmessage', {message:data.message,user:data.user});
+          
+     
+      })
+
+      socket.on('sendimage',function(data){
         let date_ob = new Date();
         var chatdata={
           user:data.user,
-          message:data.message,
+          imgfile:data.image,
           room:data.room,
           date:new Date().toLocaleDateString(),
           time:formatAMPM(new Date)
         }
-        console.log(chatdata);
         var chatdata=new privateData(chatdata);
-    chatdata.save().then(()=>{
-    })
-    io.in(data.room).emit('new_indvmessage', {message:data.message,user:data.user});
+       chatdata.save();
+       io.in(data.room).emit('new_image', {image:data.image,user:data.user});
       
       })
 

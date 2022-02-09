@@ -2,10 +2,17 @@
 <div  class="app-main" style="width: 1100px;">
     <div class="app-profile-box">
         <div class="app-profile-box-name">
-         {{user.name}}
-          
+         <h2>
+          {{user.name}}
+         </h2> 
+         
         </div>
-       
+        <div style="float: right;">
+          <button class="btn btn-outline-info" style="margin: 1mm;">MUTE</button>
+          <button class="btn btn-outline-danger" (click)="blockUser(user.email)" style="margin: 1mm;">BLOCK</button>
+
+        </div>
+        
       </div>
     <div  class="chat-wrapper">
       <!-- <div class="message-wrapper reverse">
@@ -30,27 +37,35 @@
       <div *ngIf="item.user==user.email" class="message-wrapper ">
         <div class="message-box">
           <span>{{item.message}}</span>
+          <div *ngIf="item.imgfile!=undefined">
+            <span><img [src]="item.imgfile" style="width:100px;height:100px"></span>
+           </div>
          <br>
           <span style="color: rgb(0, 0, 0);" >{{item.time}}</span>
         </div>
+        
       </div>
       <div *ngIf="item.user!==user.email" class="message-wrapper reverse">
         <div class="message-box">
           <span>{{item.message}}</span>
+          <div *ngIf="item.imgfile!=undefined">
+            <span><img [src]="item.imgfile" style="width:100px;height:100px"></span>
+           </div>
          <br>
           <span style="color: rgb(0, 0, 0);" >{{item.time}}</span>
         </div>
+        
       </div>
     </div>
     </div>
+    <button (click)="sendImage()" class="chat-attachment-btn">
+      <input type="file"  name="image" [(ngModel)]="imagemodel" id="input" (change)="onFileSelected($event)"  required accept="image/*"> 
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-paperclip" viewBox="0 0 24 24">
+        <defs/>
+        <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>
+      </svg>
+    </button>
     <form (submit)="sendMsg()" class="chat-input-wrapper">
-      
-      <button class="chat-attachment-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-paperclip" viewBox="0 0 24 24">
-          <defs/>
-          <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>
-        </svg>
-      </button>
       <div  class="input-wrapper">
         <input  type="text" name="msg" [(ngModel)]="msg" class="chat-input" placeholder="Enter your message here">
         <button class="emoji-btn">

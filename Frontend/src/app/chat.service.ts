@@ -38,12 +38,16 @@ export class ChatService {
   }
 
   chatHistory(item:any){
-    console.log(item)
     return this.http.get<any>(`${this.server_address}/chatHistory/`+item);
   }
 
   sndprivatemsg(user:any,message:any,recepient:any,room:any){
    return this.socket.emit('sendindvmsg',{user:user,message:message,recepient:recepient,room:room});
+  }
+
+  sndprvtimg(user:any,image:any,recepient:any,room:any){
+    return this.socket.emit('sendimage',{user:user,image:image,recepient:recepient,room:room});
+
   }
   
 }

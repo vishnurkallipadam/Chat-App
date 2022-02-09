@@ -6,9 +6,9 @@ import { ChatService } from '../chat.service';
   styleUrls: ['./chatarea.component.css','../dashboard/dashboard.component.css']
 })
 export class ChatareaComponent implements OnInit {
-
+  imagemodel:any
   msg:String='';
-  messageArray:Array<{user:String,message:String,userID:String,time:String}> = [];
+  messageArray:Array<{user:String,message:String,userID:String,time:String,imgfile:string}> = [];
   user:any=[];
   room:any=''
   constructor(private chat:ChatService,) { }
@@ -37,9 +37,10 @@ export class ChatareaComponent implements OnInit {
   }
 
   sendMsg(){
-    this.chat.sndprivatemsg(this.usermail,this.msg,this.id,this.room)
-    this.msg=''
-    
+    if(this.msg!==''){
+      this.chat.sndprivatemsg(this.usermail,this.msg,this.id,this.room)
+      this.msg=''
+    }
   }
 
   refresh(){
@@ -58,5 +59,35 @@ export class ChatareaComponent implements OnInit {
     return id1.toString(10).padStart(10, "0") + id2.toString(10).padStart(10, "0");
 }
 
+sendImage(){
+  if(this.imageUrl!==''){
+    this.chat.sndprvtimg(this.usermail,this.imageUrl,this.id,this.room)
+    this.imagemodel='';
+    this.imageUrl=''
+
+  }
+
+}
+
+
+imageUrl:any='';
+imagefile:any;
+image:string=''
+onFileSelected(event:any){
+  if(event.target.files){
+  
+    var reader=new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload=(event:any)=>{
+    this.imageUrl=reader.result;
+    }
+this.imagefile=<File>event.target.files[0];
+  } 
+ this.image=this.imagefile.name;
+    }
+
+    blockUser(user_email:any){
+      
+    }
 
 }
