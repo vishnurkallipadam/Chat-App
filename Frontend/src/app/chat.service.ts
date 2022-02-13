@@ -65,4 +65,9 @@ export class ChatService {
   getBlockData(){
     return this.http.get<any>(`${this.server_address}/blockList`)
   }
+
+  createGroup(name:any){
+    console.log(name);
+    return this.http.post<any>(`${this.server_address}/createGroup`,{name}) 
+  }
 }

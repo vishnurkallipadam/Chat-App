@@ -30,19 +30,31 @@ export class ChatlistComponent implements OnInit {
         console.log(this.user);
         this.count=this.user.length-1
         console.log(this.count);
-        
+        this.chat.getGroups().subscribe((data)=>{
+          this.group=JSON.parse(JSON.stringify(data))
+          console.log(this.group);
+          
+          this.gcount=this.group.length
+        })
       })
 
-      this.chat.getGroups().subscribe((data)=>{
-        this.group=JSON.parse(JSON.stringify(data))
-        this.gcount=this.group.length
-      })
 
 
     
   }
 
   createGroup(){
+
+   this.chat.createGroup(this.gname).subscribe(
+     data=>{
+       alert("group created successfully")
+       this.ngOnInit()
+     },
+     err=>{
+       alert(err.error)
+       this.ngOnInit()
+     }
+   )
    
   }
 

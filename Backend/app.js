@@ -90,6 +90,24 @@ app.get('/chatHistory/:item', (req, res) => {
     }) 
 })
 
+app.post('/createGroup',(req,res)=>{
+
+    roomData.findOne({"name":req.body.name})
+    .then((data)=>{
+        if(data){
+            res.status(401).send('Group Already Exist')
+        }else{
+            let group={
+                name:req.body.name
+            }
+            console.log(group);
+            var groupchat=new roomData(group);
+            groupchat.save();
+            return res.status(200).send(); 
+        }
+    })
+})
+
 app.post('/blockUser',(req,res)=>{
     console.log("block");
     console.log(req.body);

@@ -52,7 +52,41 @@
       <defs/>
       <path d="M18 15l-6-6-6 6"/>
     </svg>
-    <button class="btn btn-outline-primary" (click)="createGroup()">Create Group</button>
+    <!-- modal -->
+    <div style="padding-left: 25px;">
+                
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+        Create Group
+      </button>
+    </div>
+    
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+    
+          <!-- Modal Header -->
+          <!-- <div class="modal-header">
+            <h4 class="modal-title">Create Group Name</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div> -->
+    
+          <!-- Modal body -->
+          <div class="modal-body">
+           <input type="text" name="groupname" [(ngModel)]="gname" class="form-control" placeholder="Create Group">
+          </div>
+    
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" (click)="createGroup()"  data-bs-dismiss="modal">Ok</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+          </div>
+    
+        </div>
+      </div>
+    </div>
+
+<!-- modal -->
   </div>
   <ul *ngFor="let group of group" class="chat-list active">
     <li style=" display: flex;
