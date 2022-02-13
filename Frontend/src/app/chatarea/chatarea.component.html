@@ -59,7 +59,7 @@
       </div>
     </div>
     </div>
-    <button [disabled]="checkBlock()" (click)="sendImage()" class="chat-attachment-btn">
+    <button (click)="sendImage()" class="chat-attachment-btn">
       <input type="file"  name="image" [(ngModel)]="imagemodel" id="input" (change)="onFileSelected($event)"  required accept="image/*"> 
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-paperclip" viewBox="0 0 24 24">
         <defs/>
@@ -77,6 +77,6 @@
         </svg>
       </button>
       </div>
-      <button type="submit" [disabled]="checkBlock()" class="chat-send-btn">Send</button>
+      <button type="submit"  class="chat-send-btn">Send</button>
     </form>
   </div>

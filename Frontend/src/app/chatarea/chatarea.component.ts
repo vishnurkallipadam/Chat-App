@@ -33,9 +33,7 @@ export class ChatareaComponent implements OnInit {
             // elem.scrollTop = elem.scrollHeight;
             this.chat.getBlockData().subscribe((data)=>{
               this.block=JSON.parse(JSON.stringify(data))
-              console.log(this.block);
 
-              
             })
           })
 
@@ -49,7 +47,10 @@ export class ChatareaComponent implements OnInit {
 
   sendMsg(){
     this.userIsBlocked()
-    if(this.isuserBlocked=='yes'){
+    this.blockedUser()
+    if(this.userBlocked=='yes'){
+      alert("you had blocked this user")
+    } else if(this.isuserBlocked=='yes'){
       alert("you cant send msg to this user as you are blocked")
     }else if(this.msg!==''){
       this.chat.sndprivatemsg(this.usermail,this.msg,this.id,this.room)
@@ -75,7 +76,10 @@ export class ChatareaComponent implements OnInit {
 
 sendImage(){
   this.userIsBlocked()
-  if(this.isuserBlocked=='yes'){
+  this.blockedUser()
+  if(this.userBlocked=='yes'){
+    alert("you had blocked this user")
+  } else if(this.isuserBlocked=='yes'){
     alert("you cant send msg to this user as you are blocked")
   }else if(this.imageUrl!==''){
     this.chat.sndprvtimg(this.usermail,this.imageUrl,this.id,this.room)
@@ -118,6 +122,7 @@ this.imagefile=<File>event.target.files[0];
       this.chat.unblockUser(this.usermail,user_email)
       .subscribe((data)=>{
         alert("USER UNBLOCKED!!")
+        window.location.reload()
         
       })
       
