@@ -6,6 +6,8 @@ var userdata=require('./src/modal/userData')
 var bcrypt=require('bcrypt')
 var privateData = require('./src/modal/privateData')
 var blockData=require('./src/modal/blockData')
+var roomData=require('./src/modal/roomData')
+
 
 let http = require('http');
 let server = http.Server(app);
@@ -79,6 +81,14 @@ app.get('/chatHistory/:item', (req, res) => {
        // console.log(otheruserdetail)
       });
   })
+
+  app.get('/getGroups',(req,res)=>{
+    res.header("Acces-Control-Allow-Origin","*");
+    res.header("Acces-Control-Allow-Methods: GET, POST, PATH, PUT, DELETE, HEAD"); 
+    roomData.find().then((data)=>{
+        res.send(data)
+    }) 
+})
 
 app.post('/blockUser',(req,res)=>{
     console.log("block");

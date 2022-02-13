@@ -33,6 +33,11 @@ export class ChatService {
   getUser(email:any){
     return this.http.get<any>(`${this.server_address}/getUsers`,email)
   }
+
+  getGroups(){
+    return this.http.get<any>(`${this.server_address}/getGroups`)
+  }
+
   getSingleUser(id:any){
     return this.http.get<any>(`${this.server_address}/getUser/`+id)
   }

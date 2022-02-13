@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { ChatService } from '../chat.service';
+
+
 
 
 @Component({
@@ -13,7 +15,9 @@ export class ChatlistComponent implements OnInit {
   user:any=[]
   email:any=''
   count:any=0
-  
+  group:any=[]
+  gcount:any=0
+  gname:any=''
   constructor(private chat:ChatService,private router:Router,private auth:AuthService) { }
 
   ngOnInit(): void {
@@ -29,8 +33,17 @@ export class ChatlistComponent implements OnInit {
         
       })
 
+      this.chat.getGroups().subscribe((data)=>{
+        this.group=JSON.parse(JSON.stringify(data))
+        this.gcount=this.group.length
+      })
+
 
     
+  }
+
+  createGroup(){
+   
   }
 
   chatUser(user:any){
