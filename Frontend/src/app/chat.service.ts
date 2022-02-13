@@ -47,7 +47,17 @@ export class ChatService {
 
   sndprvtimg(user:any,image:any,recepient:any,room:any){
     return this.socket.emit('sendimage',{user:user,image:image,recepient:recepient,room:room});
+  }
 
+  blockUser(from:any,to:any){
+    return this.http.post<any>(`${this.server_address}/blockUser`,{to,from}) 
+  }
+
+  unblockUser(from:any,to:any){
+    return this.http.post<any>(`${this.server_address}/unBlockUser`,{to,from}) 
   }
   
+  getBlockData(){
+    return this.http.get<any>(`${this.server_address}/blockList`)
+  }
 }

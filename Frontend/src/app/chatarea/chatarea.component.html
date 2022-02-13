@@ -9,7 +9,8 @@
         </div>
         <div style="float: right;">
           <button class="btn btn-outline-info" style="margin: 1mm;">MUTE</button>
-          <button class="btn btn-outline-danger" (click)="blockUser(user.email)" style="margin: 1mm;">BLOCK</button>
+          <button class="btn btn-outline-danger" (click)="blockUser(user.email)" *ngIf="!checkBlock()" style="margin: 1mm;">BLOCK</button>
+          <button class="btn btn-outline-danger" (click)="unblockUser(user.email)" *ngIf="checkBlock()" style="margin: 1mm;">UNBLOCK</button>
 
         </div>
         
@@ -38,7 +39,7 @@
         <div class="message-box">
           <span>{{item.message}}</span>
           <div *ngIf="item.imgfile!=undefined">
-            <span><img [src]="item.imgfile" style="width:100px;height:100px"></span>
+            <span><img [src]="item.imgfile" style="width:200px;height:200px"></span>
            </div>
          <br>
           <span style="color: rgb(0, 0, 0);" >{{item.time}}</span>
@@ -49,7 +50,7 @@
         <div class="message-box">
           <span>{{item.message}}</span>
           <div *ngIf="item.imgfile!=undefined">
-            <span><img [src]="item.imgfile" style="width:100px;height:100px"></span>
+            <span><img [src]="item.imgfile" style="width:200px;height:200px"></span>
            </div>
          <br>
           <span style="color: rgb(0, 0, 0);" >{{item.time}}</span>
@@ -58,7 +59,7 @@
       </div>
     </div>
     </div>
-    <button (click)="sendImage()" class="chat-attachment-btn">
+    <button [disabled]="checkBlock()" (click)="sendImage()" class="chat-attachment-btn">
       <input type="file"  name="image" [(ngModel)]="imagemodel" id="input" (change)="onFileSelected($event)"  required accept="image/*"> 
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-paperclip" viewBox="0 0 24 24">
         <defs/>
@@ -76,6 +77,6 @@
         </svg>
       </button>
       </div>
-      <button type="submit" class="chat-send-btn">Send</button>
+      <button type="submit" [disabled]="checkBlock()" class="chat-send-btn">Send</button>
     </form>
   </div>

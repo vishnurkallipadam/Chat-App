@@ -11,11 +11,15 @@ export class ChatareaComponent implements OnInit {
   messageArray:Array<{user:String,message:String,userID:String,time:String,imgfile:string}> = [];
   user:any=[];
   room:any=''
+  userBlocked=''
+  isuserBlocked='';
   constructor(private chat:ChatService,) { }
   usermail:any='';
   id:any=''
+  block:any=[]
   ngOnInit(): void {
     this.id = sessionStorage.getItem('chatUser')
+
     if(this.id){
       setInterval(()=>{
         this.chat.getSingleUser(this.id).subscribe((data)=>{
@@ -27,17 +31,27 @@ export class ChatareaComponent implements OnInit {
             this.messageArray=JSON.parse(JSON.stringify(data))
             // var elem = document.getElementById('commentbox');
             // elem.scrollTop = elem.scrollHeight;
+            this.chat.getBlockData().subscribe((data)=>{
+              this.block=JSON.parse(JSON.stringify(data))
+              console.log(this.block);
+
+              
+            })
           })
 
         })
       })
+     
 
     }
 
   }
 
   sendMsg(){
-    if(this.msg!==''){
+    this.userIsBlocked()
+    if(this.isuserBlocked=='yes'){
+      alert("you cant send msg to this user as you are blocked")
+    }else if(this.msg!==''){
       this.chat.sndprivatemsg(this.usermail,this.msg,this.id,this.room)
       this.msg=''
     }
@@ -60,7 +74,10 @@ export class ChatareaComponent implements OnInit {
 }
 
 sendImage(){
-  if(this.imageUrl!==''){
+  this.userIsBlocked()
+  if(this.isuserBlocked=='yes'){
+    alert("you cant send msg to this user as you are blocked")
+  }else if(this.imageUrl!==''){
     this.chat.sndprvtimg(this.usermail,this.imageUrl,this.id,this.room)
     this.imagemodel='';
     this.imageUrl=''
@@ -87,7 +104,48 @@ this.imagefile=<File>event.target.files[0];
     }
 
     blockUser(user_email:any){
+      console.log(user_email);
+      console.log(this.usermail);
+      this.chat.blockUser(this.usermail,user_email)
+      .subscribe((data)=>{
+        alert("USER BLOCKED!!")
+      })
       
+      
+    }
+
+    unblockUser(user_email:any){
+      this.chat.unblockUser(this.usermail,user_email)
+      .subscribe((data)=>{
+        alert("USER UNBLOCKED!!")
+        
+      })
+      
+    }
+    
+    blockedUser(){
+      for(let i of this.block){        
+        if(i.from==this.usermail&&i.to==this.user.email){
+          this.userBlocked="yes"
+        }else{
+          this.userBlocked=""
+        }
+      }
+    }
+
+    userIsBlocked(){
+      for(let i of this.block){        
+        if(i.to==this.usermail&&i.from==this.user.email){
+          this.isuserBlocked="yes"
+        }else{
+          this.isuserBlocked=""
+        }
+      }
+    }
+
+    checkBlock(){
+      this.blockedUser()
+      return !!this.userBlocked
     }
 
 }

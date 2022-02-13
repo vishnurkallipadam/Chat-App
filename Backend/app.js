@@ -5,6 +5,7 @@ var path = require('path');
 var userdata=require('./src/modal/userData')
 var bcrypt=require('bcrypt')
 var privateData = require('./src/modal/privateData')
+var blockData=require('./src/modal/blockData')
 
 let http = require('http');
 let server = http.Server(app);
@@ -78,6 +79,31 @@ app.get('/chatHistory/:item', (req, res) => {
        // console.log(otheruserdetail)
       });
   })
+
+app.post('/blockUser',(req,res)=>{
+    console.log("block");
+    console.log(req.body);
+    var blockchat={
+        from:req.body.from,
+         to:req.body.to,
+       }
+       var blockchat=new blockData(blockchat);
+       blockchat.save();
+       return res.status(200).send(); 
+})
+
+app.post('/unBlockUser',(req,res)=>{
+    console.log("block");
+    console.log(req.body);
+    blockData.findOneAndDelete({"from":req.body.from,"to":req.body.to})
+    .then(()=>{
+        res.send()
+    })
+})
+
+app.get('/blockList',(req,res)=>{
+    blockData.find().then((data)=>{res.send(data)})
+})
 
 app.post('/login',(req,res)=>{
     console.log("login");
