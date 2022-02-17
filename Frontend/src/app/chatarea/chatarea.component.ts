@@ -17,31 +17,69 @@ export class ChatareaComponent implements OnInit {
   usermail:any='';
   id:any=''
   block:any=[]
+  flag:any=''
+  grpid:any=''
+  group={
+    name:'',
+    members:[]
+  };
+  ingroup:any=''
   ngOnInit(): void {
-    this.id = sessionStorage.getItem('chatUser')
-
-    if(this.id){
-      setInterval(()=>{
-        this.chat.getSingleUser(this.id).subscribe((data)=>{
-          this.user=JSON.parse(JSON.stringify(data))
-          this.usermail=sessionStorage.getItem('email')
-          this.room=(this.createRoomName(this.user.email, this.usermail));
-          this.chat.chatHistory(this.room)
-          .subscribe((data)=>{
-            this.messageArray=JSON.parse(JSON.stringify(data))
-            // var elem = document.getElementById('commentbox');
-            // elem.scrollTop = elem.scrollHeight;
-            this.chat.getBlockData().subscribe((data)=>{
-              this.block=JSON.parse(JSON.stringify(data))
-
+   
+    this.flag=sessionStorage.getItem('chat')
+    if(this.flag=="private"){
+      this.id = sessionStorage.getItem('chatUser')
+      if(this.id){
+        setInterval(()=>{
+          this.chat.getSingleUser(this.id).subscribe((data)=>{
+            this.user=JSON.parse(JSON.stringify(data))
+            this.usermail=sessionStorage.getItem('email')
+            this.room=(this.createRoomName(this.user.email, this.usermail));
+            this.chat.chatHistory(this.room)
+            .subscribe((data)=>{
+              this.messageArray=JSON.parse(JSON.stringify(data))
+              // var elem = document.getElementById('commentbox');
+              // elem.scrollTop = elem.scrollHeight;
+              this.chat.getBlockData().subscribe((data)=>{
+                this.block=JSON.parse(JSON.stringify(data))
+  
+              })
             })
+  
           })
-
         })
-      })
-     
+       
+  
+      }
+    }else if(this.flag=="group"){
+      this.grpid=sessionStorage.getItem('chatGroup')
+      if(this.grpid){
+        setInterval(()=>{
+          this.chat.getSingleGroup(this.grpid).subscribe((data)=>{
+            this.group=JSON.parse(JSON.stringify(data))
+            this.usermail=sessionStorage.getItem('email')
+            this.inGroup()
+            var inside=sessionStorage.getItem('ingrp')
+            // console.log(inside);
+            
+
+            
+            if(this.ingroup=='yes'){
+              this.chat.groupChatHistory(this.group.name)
+              .subscribe((data)=>{
+                this.messageArray=JSON.parse(JSON.stringify(data))
+              })
+            }
+  
+          })
+        })
+
+      }
+      
 
     }
+
+
 
   }
 
@@ -152,5 +190,62 @@ this.imagefile=<File>event.target.files[0];
       this.blockedUser()
       return !!this.userBlocked
     }
+
+    checkPrivate(){
+        return sessionStorage.getItem('private')
+    }
+
+    checkGroup(){
+      return sessionStorage.getItem('group')
+    }
+
+    inGroup(){    
+      
+      
+            this.ingroup=''
+            let members=this.group.members 
+            for (let i of members){
+              if(i==this.usermail){
+                this.ingroup='yes'
+                
+              }
+            }
+
+    }
+
+    checkinsideGroup(){
+      this.inGroup()
+      return !!this.ingroup
+    }
+
+    joinGroup(data:any){
+      console.log(data);
+      console.log(this.usermail);
+      this.chat.joinGroup(this.usermail,data._id).subscribe(
+        data=>{
+          alert("joined to Group")
+        }
+      )
+      
+
+    }
+
+    sendGroupImage(){
+      
+    }
+    leaveGroup(group:any){}
+
+    sendGroupMsg(){
+       if(this.ingroup=='yes'){
+        if(this.msg!==''){
+          this.chat.sndgrpmsg(this.usermail,this.msg,this.group.name)
+          this.msg=''
+        }
+        }else {
+        alert("you cant send msg to this group!! Please join to send message")
+      }
+    }
+
+    
 
 }

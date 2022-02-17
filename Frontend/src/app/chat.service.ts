@@ -46,6 +46,12 @@ export class ChatService {
     return this.http.get<any>(`${this.server_address}/chatHistory/`+item);
   }
 
+  groupChatHistory(item:any){
+    return this.http.get<any>(`${this.server_address}/groupChatHistory/`+item);
+  }
+
+
+
   sndprivatemsg(user:any,message:any,recepient:any,room:any){
    return this.socket.emit('sendindvmsg',{user:user,message:message,recepient:recepient,room:room});
   }
@@ -70,4 +76,17 @@ export class ChatService {
     console.log(name);
     return this.http.post<any>(`${this.server_address}/createGroup`,{name}) 
   }
+
+  getSingleGroup(id:any){
+    return this.http.get<any>(`${this.server_address}/getGroup/`+id)
+  }
+
+  joinGroup(mail:any,room:any){
+    return this.http.post<any>(`${this.server_address}/joinGroup`,{mail,room})
+
+  }
+
+  sndgrpmsg(user:any,message:any,room:any){
+    return this.socket.emit('sendgrpmsg',{user:user,message:message,room:room});
+   }
 }

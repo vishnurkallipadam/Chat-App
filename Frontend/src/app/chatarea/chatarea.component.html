@@ -1,11 +1,10 @@
 
-<div  class="app-main" style="width: 1100px;">
+<div  *ngIf="checkPrivate()" class="app-main" style="width: 1100px;">
     <div class="app-profile-box">
         <div class="app-profile-box-name">
          <h2>
           {{user.name}}
          </h2> 
-         
         </div>
         <div style="float: right;">
           <button class="btn btn-outline-info" style="margin: 1mm;">MUTE</button>
@@ -79,4 +78,93 @@
       </div>
       <button type="submit"  class="chat-send-btn">Send</button>
     </form>
+</div>
+
+
+<div  *ngIf="checkGroup()" class="app-main" style="width: 1100px;">
+  <div class="app-profile-box">
+      <div class="app-profile-box-name">
+       <h2>
+        {{group.name}}
+       </h2> 
+      </div>
+      <div style="float: right;">
+        <button class="btn btn-outline-info" *ngIf="!checkinsideGroup()" (click)="joinGroup(group)" style="margin: 1mm;">JOIN</button>
+        <button class="btn btn-outline-danger" *ngIf="checkinsideGroup()" (click)="leaveGroup(group)" style="margin: 1mm;">Leave</button>
+        
+        <!-- <button class="btn btn-outline-danger" (click)="blockUser(user.email)" *ngIf="!checkBlock()" style="margin: 1mm;">BLOCK</button>
+        <button class="btn btn-outline-danger" (click)="unblockUser(user.email)" *ngIf="checkBlock()" style="margin: 1mm;">UNBLOCK</button> -->
+
+      </div>
+      
+    </div>
+  <div  class="chat-wrapper">
+    <!-- <div class="message-wrapper reverse">
+      <img class="message-pp" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80" alt="profile-pic">
+      <div class="message-box-wrapper">
+        <div class="message-box">
+         Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur
+        </div>
+        <span>9h ago</span>
+      </div>
+    </div> -->
+    <!-- <div class="message-wrapper reverse">
+      <img class="message-pp" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80" alt="profile-pic">
+      <div class="message-box-wrapper">
+        <div class="message-box">
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+        <span>9h ago</span>
+      </div>
+    </div> -->
+    <div  *ngFor="let item of messageArray"  >
+    <div *ngIf="item.user!==usermail" class="message-wrapper ">
+      <div class="message-box">
+        <span>{{item.message}}</span>
+      
+        <div *ngIf="item.imgfile!=undefined">
+          <span><img [src]="item.imgfile" style="width:200px;height:200px"></span>
+         </div>
+       <br>
+       <span style="color: rgb(0, 0, 0);">{{item.user}}</span><br>
+        <span style="color: rgb(0, 0, 0);" >{{item.time}}</span>
+      </div>
+      
+    </div>
+    <div *ngIf="item.user==usermail" class="message-wrapper reverse">
+      <div class="message-box">
+        <span>{{item.message}}</span><br>
+        
+        <div *ngIf="item.imgfile!=undefined">
+          <span><img [src]="item.imgfile" style="width:200px;height:200px"></span>
+         </div>
+      
+       <span style="color: rgb(0, 0, 0);">{{item.user}}</span><br>
+        <span style="color: rgb(0, 0, 0);" >{{item.time}}</span>
+      </div>
+      
+    </div>
   </div>
+  </div>
+  <button (click)="sendGroupImage()" class="chat-attachment-btn">
+    <input type="file"  name="image" [(ngModel)]="imagemodel" id="input" (change)="onFileSelected($event)"  required accept="image/*"> 
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-paperclip" viewBox="0 0 24 24">
+      <defs/>
+      <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>
+    </svg>
+  </button>
+  <form (submit)="sendGroupMsg()" class="chat-input-wrapper">
+    <div  class="input-wrapper">
+      <input  type="text" name="msg" [(ngModel)]="msg" class="chat-input" placeholder="Enter your message here">
+      <button class="emoji-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-smile" viewBox="0 0 24 24">
+        <defs/>
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/>
+      </svg>
+    </button>
+    </div>
+    <button type="submit"  class="chat-send-btn">Send</button>
+  </form>
+</div>
+

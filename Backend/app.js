@@ -7,7 +7,7 @@ var bcrypt=require('bcrypt')
 var privateData = require('./src/modal/privateData')
 var blockData=require('./src/modal/blockData')
 var roomData=require('./src/modal/roomData')
-
+var roomChatData=require('./src/modal/roomChatData')
 
 let http = require('http');
 let server = http.Server(app);
@@ -82,6 +82,16 @@ app.get('/chatHistory/:item', (req, res) => {
       });
   })
 
+  app.get('/groupChatHistory/:item', (req, res) => {
+    const room = req.params.item;
+    roomChatData.find({ room:room  })
+      // Userdata.findOne({"email":email})
+      .then((otheruserdetail)=>{
+          res.send(otheruserdetail);
+       // console.log(otheruserdetail)
+      });
+  })
+
   app.get('/getGroups',(req,res)=>{
     res.header("Acces-Control-Allow-Origin","*");
     res.header("Acces-Control-Allow-Methods: GET, POST, PATH, PUT, DELETE, HEAD"); 
@@ -108,6 +118,16 @@ app.post('/createGroup',(req,res)=>{
     })
 })
 
+app.get('/getGroup/:id',(req,res)=>{
+    res.header("Acces-Control-Allow-Origin","*");
+    res.header("Acces-Control-Allow-Methods: GET, POST, PATH, PUT, DELETE, HEAD"); 
+    let id=req.params.id
+
+    roomData.findOne({_id:id},(err,data)=>{
+        res.send(data)
+    }) 
+})
+
 app.post('/blockUser',(req,res)=>{
     console.log("block");
     console.log(req.body);
@@ -131,6 +151,17 @@ app.post('/unBlockUser',(req,res)=>{
 
 app.get('/blockList',(req,res)=>{
     blockData.find().then((data)=>{res.send(data)})
+})
+
+app.post('/joinGroup',(req,res)=>{
+    console.log(req.body);
+    roomData.findOneAndUpdate({_id:req.body.room}, 
+        {$push:{members:req.body.mail}
+    }).then((data)=>{
+        console.log(data);
+        res.send()
+    })
+
 })
 
 app.post('/login',(req,res)=>{
@@ -196,6 +227,25 @@ io.on('connection', (socket) => {
           
      
       })
+
+      socket.on('sendgrpmsg',function(data){
+        console.log(data);
+        let date_ob = new Date();
+        var chatdata={
+          user:data.user,
+          message:data.message,
+          room:data.room,
+          date:new Date().toLocaleDateString(),
+          time:formatAMPM(new Date)
+        }
+        console.log(chatdata);
+        var chatdata=new roomChatData(chatdata);
+    chatdata.save().then(()=>{
+    })
+    io.in(data.room).emit('new_groupmessage', {message:data.message,user:data.user});
+      
+ 
+  })
 
       socket.on('sendimage',function(data){
         let date_ob = new Date();

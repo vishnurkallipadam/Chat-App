@@ -18,6 +18,7 @@ export class ChatlistComponent implements OnInit {
   group:any=[]
   gcount:any=0
   gname:any=''
+  
   constructor(private chat:ChatService,private router:Router,private auth:AuthService) { }
 
   ngOnInit(): void {
@@ -61,8 +62,23 @@ export class ChatlistComponent implements OnInit {
   chatUser(user:any){
     console.log(user);
     sessionStorage.setItem('chatUser',user._id)
+    sessionStorage.setItem('chat','private')
+    sessionStorage.setItem('private','yes')
+    sessionStorage.removeItem('group')
    window.location.reload();
   }
+  chatGroup(group:any){
+    console.log(group);
+    sessionStorage.setItem('chatGroup',group._id)
+    sessionStorage.setItem('chat','group')
+    sessionStorage.setItem('group','yes')
+    sessionStorage.removeItem('private')
+    
+
+    window.location.reload();
+  }
+
+
 
   // logout user
   logoutUser(){
@@ -74,5 +90,7 @@ export class ChatlistComponent implements OnInit {
     sessionStorage.clear()
     this.router.navigate(['/'])
   }
+
+ingroup:any=''
 
 }

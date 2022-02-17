@@ -7,7 +7,8 @@ mongoose.connect('mongodb://localhost:27017/mychatapp');
 // schema definition
 const schema = mongoose.Schema;
 const roomSchema= new schema({   
-    name: String
+    name: String,
+    members:Array
 
 });
 
