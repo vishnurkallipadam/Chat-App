@@ -89,4 +89,11 @@ export class ChatService {
   sndgrpmsg(user:any,message:any,room:any){
     return this.socket.emit('sendgrpmsg',{user:user,message:message,room:room});
    }
+
+   sndgrpimg(user:any,image:any,room:any){
+     console.log(user);
+     
+    return this.socket.emit('sendgrpimage',{user:user,image:image,room:room});
+  }
+
 }

@@ -231,7 +231,16 @@ this.imagefile=<File>event.target.files[0];
     }
 
     sendGroupImage(){
-      
+      if(this.ingroup=='yes'){
+        if(this.imageUrl!==''){
+    this.chat.sndgrpimg(this.usermail,this.imageUrl,this.group.name)
+    this.imagemodel='';
+    this.imageUrl=''
+
+  }
+        }else {
+        alert("you cant send msg to this group!! Please join to send message")
+      }
     }
     leaveGroup(group:any){}
 

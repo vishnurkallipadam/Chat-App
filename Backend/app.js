@@ -262,6 +262,21 @@ io.on('connection', (socket) => {
       
       })
 
+      socket.on('sendgrpimage',function(data){
+        let date_ob = new Date();
+        var chatdata={
+          user:data.user,
+          imgfile:data.image,
+          room:data.room,
+          date:new Date().toLocaleDateString(),
+          time:formatAMPM(new Date)
+        }
+        var chatdata=new roomChatData(chatdata);
+       chatdata.save();
+       io.in(data.room).emit('new_image', {image:data.image,user:data.user});
+      
+      })
+
     socket.on('message', (data) => {
 
         var chatdata={
