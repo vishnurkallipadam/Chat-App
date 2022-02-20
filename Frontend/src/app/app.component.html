@@ -1,3 +1,2 @@
 <app-home *ngIf="!auth.userLoggedIn()"></app-home>
-<app-header  *ngIf="auth.userLoggedIn()"></app-header>
 <router-outlet *ngIf="auth.userLoggedIn()"></router-outlet>
