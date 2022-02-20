@@ -255,6 +255,42 @@ this.imagefile=<File>event.target.files[0];
       }
     }
 
+    muteArray:any=[]
+    muteUser(email:any){
+      this.muteArray.push(email)
+      console.log(this.muteArray);
+    }
+    isuserMuted:any=''
+
+    userMuted(){
+      for(let i of this.muteArray){        
+        if(i==this.user.email){
+          this.isuserMuted="yes"
+        }else{
+          this.isuserMuted=''
+        }
+      }
+
+    }
+
+    checkMute(){
+      this.userMuted()
+      return !!this.isuserMuted
+    }
+
+    unmuteUser(user:any){
+      const index = this.muteArray.indexOf(user);
+      if (index > -1) {
+      this.muteArray.splice(index, 1); // 2nd parameter means remove one item only
+     }
+     this.userMuted()
+     console.log(this.isuserMuted);
+     window.location.reload()
+     
+     
+    }
+
+    
     
 
 }

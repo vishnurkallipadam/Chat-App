@@ -7,7 +7,8 @@
          </h2> 
         </div>
         <div style="float: right;">
-          <button class="btn btn-outline-info" style="margin: 1mm;">MUTE</button>
+          <button class="btn btn-outline-info" (click)="muteUser(user.email)" *ngIf="!checkMute()" style="margin: 1mm;">MUTE</button>
+          <button class="btn btn-outline-info" (click)="unmuteUser(user.email)" *ngIf="checkMute()" style="margin: 1mm;">UNMUTE</button>
           <button class="btn btn-outline-danger" (click)="blockUser(user.email)" *ngIf="!checkBlock()" style="margin: 1mm;">BLOCK</button>
           <button class="btn btn-outline-danger" (click)="unblockUser(user.email)" *ngIf="checkBlock()" style="margin: 1mm;">UNBLOCK</button>
 
@@ -37,6 +38,7 @@
       <div *ngIf="item.user==user.email" class="message-wrapper ">
         <div class="message-box">
           <span>{{item.message}}</span>
+          <a href="#" ><i style="color:white" class="material-icons">shortcut</i></a>
           <div *ngIf="item.imgfile!=undefined">
             <span><img [src]="item.imgfile" style="width:200px;height:200px"></span>
            </div>
@@ -48,6 +50,7 @@
       <div *ngIf="item.user!==user.email" class="message-wrapper reverse">
         <div class="message-box">
           <span>{{item.message}}</span>
+          <a href="#" (click)="forwardMsg(item.message)" ><i style="color:white" class="material-icons">shortcut</i></a>
           <div *ngIf="item.imgfile!=undefined">
             <span><img [src]="item.imgfile" style="width:200px;height:200px"></span>
            </div>
@@ -121,19 +124,21 @@
     <div *ngIf="item.user!==usermail" class="message-wrapper ">
       <div class="message-box">
         <span>{{item.message}}</span>
-      
+        <a href="#" ><i style="color:white" class="material-icons">shortcut</i></a>
         <div *ngIf="item.imgfile!=undefined">
           <span><img [src]="item.imgfile" style="width:200px;height:200px"></span>
          </div>
        <br>
        <span style="color: rgb(0, 0, 0);">{{item.user}}</span><br>
         <span style="color: rgb(0, 0, 0);" >{{item.time}}</span>
+        
       </div>
       
     </div>
     <div *ngIf="item.user==usermail" class="message-wrapper reverse">
       <div class="message-box">
         <span>{{item.message}}</span><br>
+        <a href="#" ><i style="color:white" class="material-icons">shortcut</i></a>
         
         <div *ngIf="item.imgfile!=undefined">
           <span><img [src]="item.imgfile" style="width:200px;height:200px"></span>
