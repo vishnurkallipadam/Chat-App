@@ -38,7 +38,7 @@
       <div *ngIf="item.user==user.email" class="message-wrapper ">
         <div class="message-box">
           <span>{{item.message}}</span>
-          <a href="#" ><i style="color:white" class="material-icons">shortcut</i></a>
+          <a href="#"  ><i (click)="forwardMsg(item)" style="color:white" class="material-icons">shortcut</i></a>
           <div *ngIf="item.imgfile!=undefined">
             <span><img [src]="item.imgfile" style="width:200px;height:200px"></span>
            </div>
@@ -50,7 +50,7 @@
       <div *ngIf="item.user!==user.email" class="message-wrapper reverse">
         <div class="message-box">
           <span>{{item.message}}</span>
-          <a href="#" (click)="forwardMsg(item.message)" ><i style="color:white" class="material-icons">shortcut</i></a>
+          <a href="#"  ><i (click)="forwardMsg(item)" style="color:white" class="material-icons">shortcut</i></a>
           <div *ngIf="item.imgfile!=undefined">
             <span><img [src]="item.imgfile" style="width:200px;height:200px"></span>
            </div>
@@ -122,9 +122,9 @@
     </div> -->
     <div  *ngFor="let item of messageArray"  >
     <div *ngIf="item.user!==usermail" class="message-wrapper ">
-      <div class="message-box">
+      <div class="message-box" >
         <span>{{item.message}}</span>
-        <a href="#" ><i style="color:white" class="material-icons">shortcut</i></a>
+        <a href="" (click)="forwardMsg(item)"  ><i (click)="forwardMsg(item)" style="color:white" class="material-icons">shortcut</i></a>
         <div *ngIf="item.imgfile!=undefined">
           <span><img [src]="item.imgfile" style="width:200px;height:200px"></span>
          </div>
@@ -138,7 +138,7 @@
     <div *ngIf="item.user==usermail" class="message-wrapper reverse">
       <div class="message-box">
         <span>{{item.message}}</span><br>
-        <a href="#" ><i style="color:white" class="material-icons">shortcut</i></a>
+        <a href="" (click)="forwardMsg(item)" ><i   (click)="forwardMsg(item)"  style="color:white" class="material-icons">shortcut</i></a>
         
         <div *ngIf="item.imgfile!=undefined">
           <span><img [src]="item.imgfile" style="width:200px;height:200px"></span>

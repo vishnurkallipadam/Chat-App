@@ -164,6 +164,21 @@ app.post('/joinGroup',(req,res)=>{
 
 })
 
+app.post('/leftGroup',(req,res)=>{
+    console.log(req.body);
+
+                roomData.findOneAndUpdate({_id:req.body.room}, 
+        {$pull:{members:req.body.mail}
+    }).then((data)=>{
+         console.log(data);
+         res.send()
+     })
+     .catch((err)=>{
+         console.log(err);
+     })
+ 
+})
+
 app.post('/login',(req,res)=>{
     console.log("login");
     res.header("Acces-Control-Allow-Origin","*");

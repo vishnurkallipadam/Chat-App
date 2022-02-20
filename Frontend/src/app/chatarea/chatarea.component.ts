@@ -34,6 +34,7 @@ export class ChatareaComponent implements OnInit {
           this.chat.getSingleUser(this.id).subscribe((data)=>{
             this.user=JSON.parse(JSON.stringify(data))
             this.usermail=sessionStorage.getItem('email')
+            
             this.room=(this.createRoomName(this.user.email, this.usermail));
             this.chat.chatHistory(this.room)
             .subscribe((data)=>{
@@ -47,7 +48,11 @@ export class ChatareaComponent implements OnInit {
             })
   
           })
-        })
+
+
+        },1000)
+
+
        
   
       }
@@ -72,7 +77,7 @@ export class ChatareaComponent implements OnInit {
             }
   
           })
-        })
+        },1000)
 
       }
       
@@ -83,10 +88,19 @@ export class ChatareaComponent implements OnInit {
 
   }
 
+  forwrdmessage:any=''
   sendMsg(){
     this.userIsBlocked()
     this.blockedUser()
-    if(this.userBlocked=='yes'){
+    this.forwrdmessage=sessionStorage.getItem('forward message')
+  if(this.forwrdmessage){
+    this.chat.sndprivatemsg(this.usermail,this.forwrdmessage,this.id,this.room)
+    this.imagemodel='';
+    this.imageUrl=''
+    sessionStorage.removeItem('forward img')
+    sessionStorage.removeItem('forward message')
+
+  }else if(this.userBlocked=='yes'){
       alert("you had blocked this user")
     } else if(this.isuserBlocked=='yes'){
       alert("you cant send msg to this user as you are blocked")
@@ -111,11 +125,19 @@ export class ChatareaComponent implements OnInit {
     }
     return id1.toString(10).padStart(10, "0") + id2.toString(10).padStart(10, "0");
 }
-
+forwrdImgurl:any=''
 sendImage(){
   this.userIsBlocked()
   this.blockedUser()
-  if(this.userBlocked=='yes'){
+  this.forwrdImgurl=sessionStorage.getItem('forward img')
+  if(this.forwrdImgurl){
+    this.chat.sndprvtimg(this.usermail,this.forwrdImgurl,this.id,this.room)
+    this.imagemodel='';
+    this.imageUrl=''
+    sessionStorage.removeItem('forward img')
+    sessionStorage.removeItem('forward message')
+
+  }else if(this.userBlocked=='yes'){
     alert("you had blocked this user")
   } else if(this.isuserBlocked=='yes'){
     alert("you cant send msg to this user as you are blocked")
@@ -231,7 +253,15 @@ this.imagefile=<File>event.target.files[0];
     }
 
     sendGroupImage(){
-      if(this.ingroup=='yes'){
+      this.forwrdImgurl=sessionStorage.getItem('forward img')
+      if(this.forwrdImgurl){
+        this.chat.sndgrpimg(this.usermail,this.forwrdImgurl,this.group.name)
+        this.imagemodel='';
+        this.imageUrl=''
+        sessionStorage.removeItem('forward img')
+        sessionStorage.removeItem('forward message')
+    
+      }else if(this.ingroup=='yes'){
         if(this.imageUrl!==''){
     this.chat.sndgrpimg(this.usermail,this.imageUrl,this.group.name)
     this.imagemodel='';
@@ -242,10 +272,19 @@ this.imagefile=<File>event.target.files[0];
         alert("you cant send msg to this group!! Please join to send message")
       }
     }
-    leaveGroup(group:any){}
+
+    
 
     sendGroupMsg(){
-       if(this.ingroup=='yes'){
+      this.forwrdmessage=sessionStorage.getItem('forward message')
+  if(this.forwrdmessage){
+    this.chat.sndgrpmsg(this.usermail,this.forwrdmessage,this.group.name)
+    this.imagemodel='';
+    this.imageUrl=''
+    sessionStorage.removeItem('forward img')
+    sessionStorage.removeItem('forward message')
+
+  }else if(this.ingroup=='yes'){
         if(this.msg!==''){
           this.chat.sndgrpmsg(this.usermail,this.msg,this.group.name)
           this.msg=''
@@ -286,11 +325,33 @@ this.imagefile=<File>event.target.files[0];
      this.userMuted()
      console.log(this.isuserMuted);
      window.location.reload()
-     
+    
      
     }
 
-    
-    
+    forwardMsg(item:any){
+      if(item.imgfile){
+        sessionStorage.setItem('forward img',item.imgfile.toString())
+        alert("Please select the contact where you want to forward message")
+
+      }else if(item.message){
+        sessionStorage.setItem('forward message',item.message.toString())
+        alert("Please select the contact where you want to forward message")
+
+
+      }
+    }
+
+    leaveGroup(group:any){
+      console.log(this.usermail);
+      this.chat.leftGroup(this.usermail,group._id).subscribe(
+        data=>{
+          alert("Left Group")
+          window.location.reload()
+        }
+      )
+      
+
+    }
 
 }

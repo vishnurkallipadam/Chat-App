@@ -96,4 +96,8 @@ export class ChatService {
     return this.socket.emit('sendgrpimage',{user:user,image:image,room:room});
   }
 
+  leftGroup(mail:any,room:any){
+    return this.http.post<any>(`${this.server_address}/leftGroup`,{mail,room})
+  }
+
 }
